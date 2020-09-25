@@ -25,7 +25,6 @@ namespace AlecJessy_Assign2
             string path = "input_01.txt";
             if (File.Exists(path))
             {
-                MessageBox.Show("file 1 read");
                 using (StreamReader sr = File.OpenText(path))
                 {
                     while ((s = sr.ReadLine()) != null)

@@ -117,7 +117,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(152, 65);
+            this.textBox2.Location = new System.Drawing.Point(229, 65);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 26);
             this.textBox2.TabIndex = 10;
@@ -131,7 +131,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(154, 223);
+            this.textBox6.Location = new System.Drawing.Point(229, 223);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 26);
             this.textBox6.TabIndex = 14;
@@ -167,7 +167,7 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(152, 97);
+            this.comboBox2.Location = new System.Drawing.Point(229, 97);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 28);
             this.comboBox2.TabIndex = 20;
@@ -187,7 +187,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(134, 257);
+            this.numericUpDown1.Location = new System.Drawing.Point(229, 255);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
