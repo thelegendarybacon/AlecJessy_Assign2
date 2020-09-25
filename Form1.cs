@@ -13,11 +13,13 @@ namespace AlecJessy_Assign2
 {
     public partial class Form1 : Form
     {
+        SortedList<uint, Student> studentPool = new SortedList<uint, Student>();
+        List<Course> coursePool = new List<Course>();
+        List<string> majors = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
-            SortedList<uint, Student> studentPool = new SortedList<uint, Student>();
-            List<Course> coursePool = new List<Course>();
 
             string s;
 
@@ -51,13 +53,35 @@ namespace AlecJessy_Assign2
                 }
             }
 
+            //reads in major data
+            path = "input_03.txt";
+            if (File.Exists(path))
+            {
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        majors.Add(s);
+                        comboBox1.Items.Add(s);
+                    }
+                }
+            }
 
         }
 
         // Adds a student to list of students
         private void button5_Click(object sender, EventArgs e)
         {
+            string name, zid, major, year;
+            name = textBox1.Text.ToString();
+            zid = textBox2.Text.ToString();
+            major = comboBox1.SelectedItem.ToString();
+            year = comboBox2.SelectedItem.ToString();
+            uint z = Convert.ToUInt32(zid.Substring(1), 10);
 
+            Student tmpStu = new Student(z, name, major, year);
+            studentPool.Add(z, tmpStu);
+            listBox2.Items.Add(tmpStu.ToString("list"));
         }
 
         // Adds a course to list of courses

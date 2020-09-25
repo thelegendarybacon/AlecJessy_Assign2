@@ -65,6 +65,24 @@ namespace AlecJessy_Assign2
             hours = 0;
         }
 
+        // Second overloaded constructor, data from all string variables
+        public Student(uint z, string n, string m, string g)
+        {
+            string[] nameSplit = n.Split(',');
+            fname = nameSplit[1];
+            lname = nameSplit[0];
+            major = m;
+            GPA = 0;
+            hours = 0;
+            zid = z;
+
+            Year tmp;
+            if (Enum.TryParse(g, out tmp))
+                grade = tmp;
+            else
+                grade = Year.None;
+        }
+
         //implements CompareTo from Comparable
         public int CompareTo(object alpha)
         {
