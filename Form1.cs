@@ -51,6 +51,8 @@ namespace AlecJessy_Assign2
                         listBox1.Items.Add(c.ToString());
                     }
                 }
+
+                coursePool.Sort();
             }
 
             //reads in major data
@@ -66,58 +68,121 @@ namespace AlecJessy_Assign2
                     }
                 }
             }
-
         }
 
         // Adds a student to list of students
         private void button5_Click(object sender, EventArgs e)
         {
-            string name, zid, major, year;
-            name = textBox1.Text.ToString();
-            zid = textBox2.Text.ToString();
-            major = comboBox1.SelectedItem.ToString();
-            year = comboBox2.SelectedItem.ToString();
-            uint z = Convert.ToUInt32(zid.Substring(1), 10);
+            if (comboBox1.SelectedIndex >= 0)
+            {
+                string name, zid, major, year;
+                name = textBox1.Text.ToString();
+                zid = textBox2.Text.ToString();
+                major = comboBox1.SelectedItem.ToString();
+                year = comboBox2.SelectedItem.ToString();
+                uint z = Convert.ToUInt32(zid.Substring(1), 10);
 
-            Student tmpStu = new Student(z, name, major, year);
-            studentPool.Add(z, tmpStu);
-            listBox2.Items.Add(tmpStu.ToString("list"));
+                Student tmpStu = new Student(z, name, major, year);
+                studentPool.Add(z, tmpStu);
+                listBox2.Items.Add(tmpStu.ToString("list"));
+            }
+            else
+            {
+                richTextBox1.Clear();
+                richTextBox1.Text = "Error: Must enter data in the 4 fields";
+            }
         }
 
         // Adds a course to list of courses
         private void button6_Click(object sender, EventArgs e)
         {
+            string dCode, cNum, sNum;
+            dCode = comboBox3.SelectedItem.ToString();
+            cNum = textBox6.Text.ToString();
+            sNum = textBox5.Text.ToString();
+            ushort cap = Convert.ToUInt16(numericUpDown1.Value);
 
-        }
-
-        // Selection of a Student to enroll/drop
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        // Selection of a Course to enroll/drop Student from
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            Course tmpCrse = new Course(dCode, cNum, sNum, cap);
+            coursePool.Add(tmpCrse);
+            listBox1.Items.Add(tmpCrse.ToString());
         }
 
         // Enrolls the selected Student into selected Course
         private void button2_Click(object sender, EventArgs e)
         {
-
+            string[] eString = coursePool[listBox1.SelectedIndex].ToString().Split('(');
+            richTextBox1.Clear();
+            if (listBox1.SelectedIndex >= 0 && listBox2.SelectedIndex >= 0)
+            {
+                uint zid = Convert.ToUInt32(listBox2.SelectedItem.ToString(), 10);
+                int result = studentPool[zid].Enroll(coursePool[listBox1.SelectedIndex]);
+                if (result == 5)
+                    richTextBox1.Text = "Error: Course is at capacity";
+                else if (result == 10)
+                    richTextBox1.Text = "Error: Student is already enrolled";
+                else if (result == 15)
+                    richTextBox1.Text = "Error: Student can not enroll for more than 18 credit hours";
+                else
+                    richTextBox1.Text = "z" + zid + " has been enrolled in " + eString[0];
+            }
+            else
+            {
+                richTextBox1.Text = "Error: Must select a student and a course to enroll";
+            }
         }
 
         // Drops the selected Student from selected Course
         private void button3_Click(object sender, EventArgs e)
         {
-
+            if (listBox1.SelectedIndex >= 0 && listBox2.SelectedIndex >= 0)
+            {
+                uint zid = Convert.ToUInt32(listBox2.SelectedItem.ToString(), 10);
+                int result = studentPool[zid].Drop(coursePool[listBox1.SelectedIndex]);
+            }
+            else
+            {
+                richTextBox1.Clear();
+                richTextBox1.Text = "Error: Must select a student and a course to drop";
+            }
         }
         
         // Prints the selected Course's Roster in bottom box
         private void button1_Click(object sender, EventArgs e)
         {
 
+            if (listBox1.SelectedIndex >= 0)
+            {
+                Course selected = coursePool[listBox1.SelectedIndex];
+                Student curr;
+                int counter = 0;
+                string output = "Course: " + selected.ToString();
+                output += "\n----------------------------------------\n\n";
+
+                if(selected.getSize() > 0)
+                {
+                    while (counter < selected.getSize())
+                    {
+                        curr = studentPool[selected.getEnrolled()[counter]];
+                        output += curr.ToString("roster");
+                        output += "\n";
+
+                        counter++;
+                    }
+                }
+
+                //format text into columns
+                richTextBox1.Clear();
+                richTextBox1.Text = output;
+                richTextBox1.SelectAll();
+                richTextBox1.SelectionTabs = new int[] { 100, 200 };
+                richTextBox1.AcceptsTab = true;
+                richTextBox1.Select(0, 0);
+            }
+            else
+            {
+                richTextBox1.Clear();
+                richTextBox1.Text = "Error: Must select a course to display the roster of";
+            }
         }
 
         // Filters the list of Students
@@ -131,5 +196,12 @@ namespace AlecJessy_Assign2
         {
 
         }
+
+        // Passive reaction for student selection
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //
+        }
+
     }
 }

@@ -42,6 +42,18 @@ namespace AlecJessy_Assign2
             students = new List<uint>();
         }
 
+        // Overload to take in strings
+        public Course(string d, string cn, string s, ushort ca)
+        {
+            dep = d;
+            cnum = Convert.ToUInt32(cn, 10);
+            section = s;
+            cHours = 0;
+            students = null;
+            csize = 0;
+            maxcap = ca;
+        }
+
         //Implementation of CompareTo
         public int CompareTo(object alpha)
         {
