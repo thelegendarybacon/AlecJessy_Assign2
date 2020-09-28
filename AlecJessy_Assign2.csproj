@@ -91,7 +91,9 @@
     </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="input_03.txt" />
+    <Content Include="input_03.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

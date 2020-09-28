@@ -135,7 +135,7 @@ namespace AlecJessy_Assign2
             }
             else if (type.Equals("roster"))
             {
-                output = zid + "\t" + String.Format("{0,-25}", name) + "\t" + major;
+                output = "z" + zid + "\t" + String.Format("{0,-25}", name) + "\t" + major;
             }
             else if(type.Equals("list"))
             {

@@ -68,6 +68,24 @@ namespace AlecJessy_Assign2
                     }
                 }
             }
+
+            comboBox2.Items.Add("Freshman");
+            comboBox2.Items.Add("Sophmore");
+            comboBox2.Items.Add("Junior");
+            comboBox2.Items.Add("Senior");
+        }
+
+        private void refreshLists(SortedList<uint, Student> s, List<Course> c)
+        {
+            listBox2.Items.Clear();
+            listBox1.Items.Clear();
+
+            IList<Student> stu = s.Values;
+            foreach(Student stdnt in stu)
+                listBox2.Items.Add(stdnt.ToString("list"));
+
+            foreach (Course crse in c)
+                listBox1.Items.Add(crse.ToString());
         }
 
         // Adds a student to list of students
@@ -84,13 +102,13 @@ namespace AlecJessy_Assign2
 
                 Student tmpStu = new Student(z, name, major, year);
                 studentPool.Add(z, tmpStu);
-                listBox2.Items.Add(tmpStu.ToString("list"));
             }
             else
             {
                 richTextBox1.Clear();
                 richTextBox1.Text = "Error: Must enter data in the 4 fields";
             }
+            refreshLists(studentPool, coursePool);
         }
 
         // Adds a course to list of courses
@@ -104,7 +122,8 @@ namespace AlecJessy_Assign2
 
             Course tmpCrse = new Course(dCode, cNum, sNum, cap);
             coursePool.Add(tmpCrse);
-            listBox1.Items.Add(tmpCrse.ToString());
+
+            refreshLists(studentPool, coursePool);
         }
 
         // Enrolls the selected Student into selected Course
@@ -114,7 +133,8 @@ namespace AlecJessy_Assign2
             richTextBox1.Clear();
             if (listBox1.SelectedIndex >= 0 && listBox2.SelectedIndex >= 0)
             {
-                uint zid = Convert.ToUInt32(listBox2.SelectedItem.ToString(), 10);
+                string idGrab = listBox2.SelectedItem.ToString().Substring(1, 7);
+                uint zid = Convert.ToUInt32(idGrab, 10);
                 int result = studentPool[zid].Enroll(coursePool[listBox1.SelectedIndex]);
                 if (result == 5)
                     richTextBox1.Text = "Error: Course is at capacity";
@@ -129,6 +149,8 @@ namespace AlecJessy_Assign2
             {
                 richTextBox1.Text = "Error: Must select a student and a course to enroll";
             }
+
+            refreshLists(studentPool, coursePool);
         }
 
         // Drops the selected Student from selected Course
@@ -144,6 +166,8 @@ namespace AlecJessy_Assign2
                 richTextBox1.Clear();
                 richTextBox1.Text = "Error: Must select a student and a course to drop";
             }
+
+            refreshLists(studentPool, coursePool);
         }
         
         // Prints the selected Course's Roster in bottom box
